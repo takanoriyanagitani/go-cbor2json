@@ -32,6 +32,14 @@ func (c CborToArrayToJson) ConvertAll(ctx context.Context) error {
 		default:
 		}
 
+		// Explicitly removes all items in an array
+		for i := range buf {
+			buf[i] = nil
+		}
+
+		// This only will keep old values
+		buf = buf[:0]
+
 		e := c.Convert(&buf)
 		if nil != e {
 			if !errors.Is(e, io.EOF) {
